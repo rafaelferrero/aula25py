@@ -1,12 +1,20 @@
 # -*- coding: UTF-8 -*-
 
 from django.contrib import admin
+from django.db.models import Q
 from .models import (
     Pais,
     Provincia,
     Localidad,
     Cuenta,
     Movimiento)
+
+
+def set_zero(modeladmin, request, queryset):
+    localidades = Localidad.objects.filter(Q(nombre__istartswith='p'))
+    queryset.filter(cuenta__localidad__in=localidades).update(importe=0)
+
+set_zero.short_description = "Convertir importe a 0 (Santa Fe y Rafaela)"
 
 
 @admin.register(Pais)

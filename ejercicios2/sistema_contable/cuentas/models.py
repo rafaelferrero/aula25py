@@ -108,6 +108,7 @@ class Movimiento(models.Model):
     importe = models.DecimalField(
         max_digits=20,
         decimal_places=4,
+        default=0,
         verbose_name=_("Importe"))
 
     def __str__(self):
@@ -115,3 +116,23 @@ class Movimiento(models.Model):
             self.signo,
             self.importe,
             self.fecha)
+
+
+class PerfilEmpleado(models.Model):
+    fecha_ingreso = models.DateField()
+    sueldo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        default=20000)
+
+
+class GerenteDeCuentas(models.Model):
+    nombre = models.CharField(
+        max_length=300)
+    cuentas = models.ManyToManyField(Cuenta)
+    perfil = models.OneToOneField(
+        PerfilEmpleado,
+        null=True)
+
+    def __str__(self):
+        return self.nombre
