@@ -1,0 +1,7 @@
+(env) rferrero[aula25py]$ ls
+README.md  ejercicios1	ejercicios2  requirements.txt
+(env) rferrero[aula25py]$ cd ejercicios2/
+(env) rferrero[ejercicios2]$ django-admin startproject sistema_contable
+(env) rferrero[ejercicios2]$ cd sistema_contable/
+(env) rferrero[sistema_contable]$ ./manage.py startapp cuentas
+(env) rferrero[sistema_contable]$
