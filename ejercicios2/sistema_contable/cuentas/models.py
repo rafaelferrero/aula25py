@@ -2,7 +2,6 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from .choices import SIGNO
 
 
 class Zona(models.Model):
@@ -107,10 +106,6 @@ class Movimiento(models.Model):
         verbose_name=_("Comprobante"))
     fecha = models.DateField(
         verbose_name=_("Fecha"))
-    signo = models.CharField(
-        max_length=2,
-        choices=SIGNO,
-        verbose_name=_("Signo"))
     importe = models.DecimalField(
         max_digits=20,
         decimal_places=2,
@@ -118,8 +113,7 @@ class Movimiento(models.Model):
         verbose_name=_("Importe"))
 
     def __str__(self):
-        return "{0}{1} ({2}) - {3}".format(
-            self.signo,
+        return "{0} ({1}) - {2}".format(
             self.importe,
             self.fecha,
             self.cuenta.nombre)
