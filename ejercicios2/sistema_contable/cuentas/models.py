@@ -84,6 +84,7 @@ class Cuenta(models.Model):
         Localidad,
         verbose_name=_("Localidad"))
     email = models.EmailField(
+        blank=True,
         verbose_name=_("Correo Electrónico"))
 
     def __str__(self):
@@ -92,12 +93,17 @@ class Cuenta(models.Model):
             self.localidad,
             self.email)
 
+    class Meta:
+        verbose_name = _('Cuenta')
+        verbose_name_plural = _('Cuentas')
+
 
 class Movimiento(models.Model):
     cuenta = models.ForeignKey(
         Cuenta,
         verbose_name=_("Cuenta"))
     comprobante = models.TextField(
+        blank=True,
         verbose_name=_("Comprobante"))
     fecha = models.DateField(
         verbose_name=_("Fecha"))
@@ -107,15 +113,20 @@ class Movimiento(models.Model):
         verbose_name=_("Signo"))
     importe = models.DecimalField(
         max_digits=20,
-        decimal_places=4,
+        decimal_places=2,
         default=0,
         verbose_name=_("Importe"))
 
     def __str__(self):
-        return "{0}{1} ({2})".format(
+        return "{0}{1} ({2}) - {3}".format(
             self.signo,
             self.importe,
-            self.fecha)
+            self.fecha,
+            self.cuenta.nombre)
+
+    class Meta:
+        verbose_name = _('Movimiento')
+        verbose_name_plural = _('Movimientos')
 
 
 class PerfilEmpleado(models.Model):
@@ -124,6 +135,16 @@ class PerfilEmpleado(models.Model):
         max_digits=20,
         decimal_places=2,
         default=20000)
+
+    def __str__(self):
+        return "{0} ({1})".format(
+            self.fecha_ingreso.strftime(
+                "%d, %b %Y"),
+            self.sueldo)
+
+    class Meta:
+        verbose_name = _('Perfil de Empleado')
+        verbose_name_plural = _('Perfiles de Empleado')
 
 
 class GerenteDeCuentas(models.Model):
@@ -136,3 +157,7 @@ class GerenteDeCuentas(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name = _('Gerente de Cuenta')
+        verbose_name_plural = _('Gerentes de Cuenta')

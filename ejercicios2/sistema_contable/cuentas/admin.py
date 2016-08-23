@@ -7,7 +7,9 @@ from .models import (
     Provincia,
     Localidad,
     Cuenta,
-    Movimiento)
+    Movimiento,
+    PerfilEmpleado,
+    GerenteDeCuentas)
 
 
 def set_zero(modeladmin, request, queryset):
@@ -57,3 +59,14 @@ class CuentaAdmin(admin.ModelAdmin):
 class MovimientoAdmin(admin.ModelAdmin):
     date_hierarchy = 'fecha'
     list_filter = ('cuenta__nombre',)
+
+
+@admin.register(PerfilEmpleado)
+class PerfilEmpleadoAdmin(admin.ModelAdmin):
+    date_hierarchy = 'fecha_ingreso'
+    ordering = ('sueldo',)
+
+
+@admin.register(GerenteDeCuentas)
+class GerenteDeCuentasAdmin(admin.ModelAdmin):
+    ordering = ('nombre',)
