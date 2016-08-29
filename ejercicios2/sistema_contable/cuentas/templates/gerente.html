@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Gerentes de Cuenta{% endblock %}
+
+{% block content %}
+
+    {% if gerente %}
+        <h2>{{gerente}}</h2>
+        <p>Fecha de ingreso: {{gerente.perfil.fecha_ingreso}}</p>
+        <h3>Cuentas:</h3>
+        <ul>
+            {% for cuenta in gerente.cuentas.all %}
+                <li>{{ cuenta }}</li>
+            {% endfor%}
+        </ul>
+        </br>
+        <form action="/gerente/{{gerente.id}}/movimientos/" method="post">
+            {% csrf_token %}
+            <input type="text" name="importe">
+            <input type="submit" value="Buscar!" />
+        </form>
+        {% if movimientos %}
+            <h3>Movimientos encontrados para el gerente</h3>
+            <ul>
+            {% for movimiento in movimientos %}
+                <li>{{ movimiento }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <h3>No existe el gerente</h3>
+    {% endif %}
+
+{% endblock %}

@@ -16,6 +16,7 @@ from cuentas.forms import (
     SearchForm,
     MovimientoForm,
     LocalidadForm,
+    BuscaMovimientoForm,
 )
 from cuentas.models import (
     Cuenta,
@@ -155,9 +156,46 @@ def localidad_create(request):
 
 
 def gerentes(request):
+    gerentes = GerenteDeCuentas.objects.all()
     return render(
         request,
         'gerentes.html',
-        {'gerentes': GerenteDeCuentas.objects.all()}
+        {'gerentes': gerentes}
 
+    )
+
+def gerente(request, clave):
+    return render(
+        request,
+        'gerente.html',
+        {'gerente': GerenteDeCuentas.objects.get(pk=clave)}
+    )
+
+def busca_movimientos(request,clave):
+    if request.method == 'POST':
+        form = BuscaMovimientoForm(request.POST)
+        if form.is_valid():
+            importe = form.cleaned_data['importe']
+            movimientos = Movimiento.get_movimiento(
+                importe,
+                clave,
+            )
+            return render(
+                request,
+                'gerente.html',
+                {
+                    'gerente': GerenteDeCuentas.objects.get(pk=clave),
+                    'importe': importe,
+                    'movimientos': movimientos
+                }
+            )
+    else:
+        form = BuscaMovimientoForm()
+
+    return render(
+        request,
+        'gerente.html',
+        {
+            'gerente': GerenteDeCuentas.objects.get(pk=clave),
+        }
     )

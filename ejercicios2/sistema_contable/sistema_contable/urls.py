@@ -29,4 +29,6 @@ urlpatterns = [
     url(r'^localidad/$', views.localidad_create),
     url(r'^localidad/([0-9]+)/$', views.localidad_update),
     url(r'^gerentes/$', views.gerentes),
+    url(r'^gerente/([0-9]+)/$', views.gerente),
+    url(r'^gerente/([0-9]+)/movimientos/$', views.busca_movimientos),
 ]

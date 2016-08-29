@@ -127,7 +127,7 @@ class Movimiento(models.Model):
     def get_with(query, nombre='', limit=None, fecha=None):
         if nombre:
             queryset = Movimiento.objects.filter(
-                cuenta__nombre__contains=nombre)
+                cuenta__nombre__icontains=nombre)
         else:
             q1 = Q(cuenta__nombre__contains=query)
             q2 = Q(comprobante__contains=query)
@@ -137,6 +137,13 @@ class Movimiento(models.Model):
         if limit:
             return queryset[:limit]
         return queryset
+
+    @staticmethod
+    def get_movimiento(valor, gerenteid):
+        movimientos = Movimiento.objects.filter(
+            Q(importe__gte=valor) &
+            Q(cuenta__gerentedecuentas__id=gerenteid))
+        return movimientos
 
     class Meta:
         verbose_name = _('Movimiento')

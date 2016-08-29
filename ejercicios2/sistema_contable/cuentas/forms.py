@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from cuentas.models import Movimiento, Localidad
+from cuentas.models import (
+    Movimiento,
+    Localidad,
+    GerenteDeCuentas,
+)
 
 
 class SearchForm(forms.Form):
@@ -40,4 +44,20 @@ class LocalidadForm(forms.ModelForm):
             'codigo_postal',
             'nombre',
             'abreviatura',
-            'provincia')
+            'provincia'
+        )
+
+
+class GerenteForm(forms.ModelForm):
+
+    class Meta:
+        model = GerenteDeCuentas
+        fields = ('nombre',)
+
+
+class BuscaMovimientoForm(forms.Form):
+    importe = forms.IntegerField(
+        label='Importe',
+        min_value=1,
+        required=True,
+    )
