@@ -5,9 +5,10 @@
 {% block content %}
 <h2>Localidades</h2>
 
+<a href=/localidad/>Crear Localidad</a>
 <ul>
 {% for localidad in localidades %}
-    <li><a href=/localidades/{{localidad.id}}>{{localidad.nombre_completo}}</a></li>
+    <li><a href=/localidad/{{localidad.id}}>{{localidad.nombre_completo}}</a></li>
 {% endfor %}
 </ul>
 {% endblock%}

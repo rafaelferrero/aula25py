@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 from django.http import Http404
 from django.http import HttpResponse
-from django.shortcuts import render
-from datetime import datetime
+from django.shortcuts import render, get_object_or_404, redirect
+from datetime import datetime, date
 
 from cuentas.forms import (
     SearchForm,
@@ -48,10 +48,9 @@ def busqueda(request):
 def movimientos(request):
     if request.method == 'POST':
         form = MovimientoForm(request.POST)
-        #import ipdb; ipdb.set_trace()
         if form.is_valid():
             movimiento = form.save(commit=False)
-             # cambios en movimiento
+            movimiento.fecha = date.today()
             movimiento.save()
             return render(
                  request,
@@ -93,28 +92,42 @@ def cuenta(request, clave):
     return render(request, 'cuenta2.html', {'c': c})
 
 
-def localidades(request, clave=''):
+def localidades(request):
+    return render(
+         request,
+         'localidades.html',
+         {'localidades': Localidad.objects.all()}
+    )
+
+
+def localidad_update(request, clave=''):
+    #import pdb
+    #pdb.set_trace()
     if clave:
-        if request.method == 'POST':
-            form = MovimientoForm(request.POST)
-            if form.is_valid():
-                localidad = form.save(commit=False)
-                localidad.save()
-                return render(
-                     request,
-                     'localidades.html',
-                     {'localidades': Localidad.objects.all()}
-                )
+        localidad = get_object_or_404(Localidad, pk=clave)
+
+    if request.method == 'POST':
+        if clave:
+            form = LocalidadForm(request.POST, instance=localidad)
+        else:
+            form = LocalidadForm(request.POST)
+
+        if form.is_valid():
+            localidad = form.save(commit=False)
+            localidad.save()
+            return redirect('cuentas.views.localidades')
+    else:
+        if clave:
+            form = LocalidadForm(instance=localidad)
         else:
             form = LocalidadForm()
-            return render(
-                request,
-                'get_localidades.html',
-                {'form': form, 'localidades': Localidad.objects.all()}
-            )
-    else:
+
         return render(
             request,
-            'localidades.html',
-            {'localidades': Localidad.objects.all()}
+            'get_localidades.html',
+            {
+                'form': form,
+                'localidades': Localidad.objects.all(),
+                'clave': clave,
+            }
         )

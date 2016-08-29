@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^busqueda/$', views.busqueda),
     url(r'^movimientos/$', views.movimientos),
     url(r'^localidades/$', views.localidades),
-    url(r'^localidades/([0-9]+)/$', views.localidades),
+    url(r'^localidad/$', views.localidad_update),
+    url(r'^localidad/([0-9]+)/$', views.localidad_update),
 ]

@@ -4,7 +4,11 @@
 
 {% block content %}
 
-<form action="/localidades/" method="post">
+{% if clave%}
+<form action=/localidad/{{clave}}/ method="post">
+{% else %}
+<form action=/localidad/ method="post">
+{% endif %}
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Guardar!" />
@@ -12,7 +16,7 @@
 </br>
 <ul>
 {% for localidad in localidades %}
-    <li><a href=/localidades/{{localidad.id}}>{{localidad.nombre_completo}}</a></li>
+    <li><a href=/localidad/{{localidad.id}}>{{localidad.nombre_completo}}</a></li>
 {% endfor %}
 </ul>
 
