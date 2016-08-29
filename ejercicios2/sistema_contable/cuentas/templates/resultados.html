@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados{% endblock %}
+
+{% block content %}
+
+<h2>Se buscó: {{ query }}</h2>
+
+{% for movimiento in movimientos %}
+    <p>{{ movimiento.cuenta }} - ${{ movimiento.importe }}</p>
+{% endfor %}
+
+
+{% endblock %}
+

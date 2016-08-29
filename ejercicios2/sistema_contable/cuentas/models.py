@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -117,6 +118,25 @@ class Movimiento(models.Model):
             self.importe,
             self.fecha,
             self.cuenta.nombre)
+
+    @staticmethod
+    def ultimos():
+        return Movimiento.objects.order_by('-id')[:10]
+
+    @staticmethod
+    def get_with(query, nombre='', limit=None, fecha=None):
+        if nombre:
+            queryset = Movimiento.objects.filter(
+                cuenta__nombre__contains=nombre)
+        else:
+            q1 = Q(cuenta__nombre__contains=query)
+            q2 = Q(comprobante__contains=query)
+            queryset = Movimiento.objects.filter(q1 | q2)
+        if fecha:
+            queryset = queryset.filter(fecha__gte=fecha)
+        if limit:
+            return queryset[:limit]
+        return queryset
 
     class Meta:
         verbose_name = _('Movimiento')

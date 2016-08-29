@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Cuentas{% endblock %}
+
+{% block content %}
+{% for cuenta in cuentas %}
+    <h2><a href="/cuenta/{{ cuenta.id }}">{{ cuenta.nombre }}</a></h2>
+    <p>{{ cuenta.direccion }}{% if cuenta.email %} - {% endif %} <b>{{ cuenta.email }}</b></p>
+{% endfor %}
+
+<p>El total de las cuentas es {{ total }}.</p>
+
+{% endblock %}
+
