@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Gerentes de Cuenta{% endblock %}
+
+{% block content %}
+
+{% if gerentes %}
+<ul>
+{% for gerente in gerentes %}
+    <li><a href=/gerente/{{gerente.id}}>{{gerente.nombre}}</a>
+{% endfor %}
+</ul>
+{% else %}
+<h3>No hay gerentes para mostrar</h3>
+{% endif %}
+
+{% endblock %}
